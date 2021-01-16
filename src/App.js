@@ -1,39 +1,86 @@
-import { useEffect, useState } from 'react';
-import { Router } from '@reach/router'
-import firebase from './Components/Firebase'
+// Import React
+import React, { Component } from 'react';
+import { Router, navigate } from '@reach/router';
+import firebase from './Components/Firebase';
 
-import './App.css';
+import Home from './Components/Home';
+import Welcome from './Components/Welcome';
+import Navigation from './Components/Navigation';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import Meetings from './Components/Meetings';
 
-import Home from './Components/Home'
-import Welcome from './Components/Welcome'
-import Navigation from './Components/Navigation'
-import Register from './Components/Register'
-import Login from './Components/Login'
-import Meetings from './Components/Meetings'
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: null,
+      displayName: null,
+      userID: null
+    };
+  }
 
-function App() {
-  const [user, updateUser] = useState(null);
-
-  useEffect(() => {
-    const ref = firebase.database().ref('user');
-
-    ref.on('value', snapshot => {
-      let FBUser = snapshot.val();
-      updateUser(FBUser);
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(FBUser => {
+      if (FBUser) {
+        this.setState({
+          user: FBUser,
+          displayName: FBUser.displayName,
+          userID: FBUser.uid
+        });
+      }
     });
-  }, [user])
-  return (
-    <>
-      <Navigation user={user} />
-      {user && <Welcome user={user} />}
-      <Router>
-        <Home path="/" user={user} />
-        <Login path="/login" />
-        <Meetings path="/meetings" />
-        <Register path="/register" />
-      </Router>
-    </>
-  );
+  }
+
+  registerUser = userName => {
+    firebase.auth().onAuthStateChanged(FBUser => {
+      FBUser.updateProfile({
+        displayName: userName
+      }).then(() => {
+        this.setState({
+          user: FBUser,
+          displayName: FBUser.displayName,
+          userID: FBUser.uid
+        });
+        navigate('/MeetingApp-react/meetings');
+      });
+    });
+  };
+
+  logOutUser = e => {
+    e.preventDefault();
+    this.setState({
+      displayName: null,
+      userID: null,
+      user: null
+    });
+
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        navigate('/MeetingApp-react/login');
+      });
+  };
+
+  render() {
+    return (
+      <div>
+        <Navigation user={this.state.user} />
+        {this.state.user && <Welcome userName={this.state.displayName} logOutUser={this.logOutUser} />}
+
+        <Router>
+          <Home exact path="/MeetingApp-react" user={this.state.user} />
+          <Login path="/MeetingApp-react/login" />
+          <Meetings path="/MeetingApp-react/meetings" />
+          <Register
+            path="/MeetingApp-react/register"
+            registerUser={this.registerUser}
+          />
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;

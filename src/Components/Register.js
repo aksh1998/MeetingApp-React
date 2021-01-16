@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import FormError from './FormError';
+import firebase from './Firebase';
 
 class Register extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             displayName: '',
             email: '',
@@ -13,9 +14,10 @@ class Register extends Component {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(e) {
+    handleChange = e => {
         const itemName = e.target.name;
         const itemValue = e.target.value;
 
@@ -28,9 +30,35 @@ class Register extends Component {
         });
     }
 
+    handleSubmit = e => {
+        var registrationInfo = {
+            displayName: this.state.displayName,
+            email: this.state.email,
+            password: this.state.passOne
+        };
+        e.preventDefault();
+
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(
+                registrationInfo.email,
+                registrationInfo.password
+            )
+            .then(() => {
+                this.props.registerUser(registrationInfo.displayName);
+            })
+            .catch(error => {
+                if (error.message !== null) {
+                    this.setState({ errorMessage: error.message });
+                } else {
+                    this.setState({ errorMessage: null });
+                }
+            });
+    }
+
     render() {
         return (
-            <form className="mt-3">
+            <form className="mt-3" onSubmit={this.handleSubmit}>
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-8">
@@ -49,7 +77,7 @@ class Register extends Component {
                                                 htmlFor="displayName"
                                             >
                                                 Display Name
-                      </label>
+                                            </label>
                                             <input
                                                 className="form-control"
                                                 type="text"
@@ -68,7 +96,7 @@ class Register extends Component {
                                             htmlFor="email"
                                         >
                                             Email
-                    </label>
+                                        </label>
                                         <input
                                             className="form-control"
                                             type="email"
@@ -106,7 +134,7 @@ class Register extends Component {
                                     <div className="form-group text-right mb-0">
                                         <button className="btn btn-primary" type="submit">
                                             Register
-                    </button>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
