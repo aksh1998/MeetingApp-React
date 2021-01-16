@@ -8,7 +8,7 @@ const Welcome = ({ userName, logOutUser }) => {
                 Welcome {userName}
             </span>
         ,
-            <Link to="/MeetingApp-react" className="font-weight-bold text-primary pl-1"
+            <Link to="/" className="font-weight-bold text-primary pl-1"
                 onClick={e => logOutUser(e)}>
                 log out
         </Link>

@@ -37,7 +37,7 @@ class Login extends Component {
                 registrationInfo.password
             )
             .then(() => {
-                navigate('/MeetingApp-react/meetings');
+                navigate('/meetings');
             })
             .catch(error => {
                 if (error.message !== null) {

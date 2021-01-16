@@ -29,13 +29,13 @@ const Home = ({ user }) => {
           {user == null &&
             <span>
               <Link
-                to="/MeetingApp-react/register"
+                to="/register"
                 className="btn btn-outline-primary mr-2"
               >
                 Register
                 </Link>
               <Link
-                to="/MeetingApp-react/login"
+                to="/login"
                 className="btn btn-outline-primary mr-2"
               >
                 Log In
@@ -43,7 +43,7 @@ const Home = ({ user }) => {
             </span>
           }
           {user &&
-            <Link to="/MeetingApp-react/meetings" className="btn btn-primary">
+            <Link to="/meetings" className="btn btn-primary">
               Meetings
             </Link>
           }

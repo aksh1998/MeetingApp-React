@@ -17,7 +17,7 @@ class Register extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange = e => {
+    handleChange=e=> {
         const itemName = e.target.name;
         const itemValue = e.target.value;
 
@@ -30,7 +30,7 @@ class Register extends Component {
         });
     }
 
-    handleSubmit = e => {
+    handleSubmit=e=> {
         var registrationInfo = {
             displayName: this.state.displayName,
             email: this.state.email,

@@ -42,7 +42,7 @@ class App extends Component {
           displayName: FBUser.displayName,
           userID: FBUser.uid
         });
-        navigate('/MeetingApp-react/meetings');
+        navigate('/meetings');
       });
     });
   };
@@ -59,7 +59,7 @@ class App extends Component {
       .auth()
       .signOut()
       .then(() => {
-        navigate('/MeetingApp-react/login');
+        navigate('/login');
       });
   };
 
@@ -69,12 +69,12 @@ class App extends Component {
         <Navigation user={this.state.user} />
         {this.state.user && <Welcome userName={this.state.displayName} logOutUser={this.logOutUser} />}
 
-        <Router>
-          <Home exact path="/MeetingApp-react" user={this.state.user} />
-          <Login path="/MeetingApp-react/login" />
-          <Meetings path="/MeetingApp-react/meetings" />
+        <Router basepath="/">
+          <Home path="/" user={this.state.user} />
+          <Login path="/login" />
+          <Meetings path="/meetings" />
           <Register
-            path="/MeetingApp-react/register"
+            path="/register"
             registerUser={this.registerUser}
           />
         </Router>
