@@ -87,22 +87,37 @@ class App extends Component {
         navigate('/login');
       });
   };
+
   addMeeting = meetingName => {
     const ref = firebase
       .database()
       .ref(`meetings/${this.state.user.uid}`);
     ref.push({ meetingName: meetingName });
   };
+
   render() {
     return (
       <div>
-        <Navigation user={this.state.user} />
-        {this.state.user && <Welcome userName={this.state.displayName} logOutUser={this.logOutUser} />}
+        <Navigation
+          user={this.state.user}
+          logOutUser={this.logOutUser}
+        />
+        {this.state.user && (
+          <Welcome
+            userName={this.state.displayName}
+            logOutUser={this.logOutUser}
+          />
+        )}
 
-        <Router basepath="/">
+        <Router>
           <Home path="/" user={this.state.user} />
           <Login path="/login" />
-          <Meetings path="/meetings" addMeeting={this.addMeeting} meetings={this.state.meetings} userID={this.state.userID} />
+          <Meetings
+            path="/meetings"
+            meetings={this.state.meetings}
+            addMeeting={this.addMeeting}
+            userID={this.state.userID}
+          />
           <Attendees
             path="/attendees/:userID/:meetingID"
             adminUser={this.state.userID}
