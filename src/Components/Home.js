@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from '@reach/router';
 
 const Home = ({ user }) => {
   const biggerLead = {
@@ -27,24 +28,24 @@ const Home = ({ user }) => {
             </p>
           {user == null &&
             <span>
-              <a
-                href="/register"
+              <Link
+                to="/register"
                 className="btn btn-outline-primary mr-2"
               >
                 Register
-                </a>
-              <a
-                href="/login"
+                </Link>
+              <Link
+                to="/login"
                 className="btn btn-outline-primary mr-2"
               >
                 Log In
-                </a>
+                </Link>
             </span>
           }
           {user &&
-            <a href="/meetings" className="btn btn-primary">
+            <Link to="/meetings" className="btn btn-primary">
               Meetings
-            </a>
+            </Link>
           }
 
         </div>{' '}

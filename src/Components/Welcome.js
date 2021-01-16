@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from '@reach/router';
 const Welcome = ({ user }) => {
 
     return (
@@ -8,9 +8,9 @@ const Welcome = ({ user }) => {
                 Welcome {user}
             </span>
         ,
-            <a href="/" className="font-weight-bold text-primary pl-1">
+            <Link to="/" className="font-weight-bold text-primary pl-1">
                 log out
-        </a>
+        </Link>
         </div>
     );
 }
